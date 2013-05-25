@@ -1,0 +1,18 @@
+cmake_minimum_required (VERSION 2.6)
+project (php_generator)
+
+find_package(Threads)
+
+include(FindProtobuf)
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIR})
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+#PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS foo.proto)
+#add_executable(bar bar.cc ${PROTO_SRCS} ${PROTO_HDRS})
+
+FILE(GLOB SRC_PHP_GEN google/protobuf/compiler/php/*.cc)
+
+ADD_EXECUTABLE(php_generator ${SRC_PHP_GEN})
+TARGET_LINK_LIBRARIES(php_generator ${PROTOBUF_LIBRARIES})
+TARGET_LINK_LIBRARIES(php_generator ${PROTOBUF_PROTOC_LIBRARY})
